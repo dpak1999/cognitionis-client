@@ -3,9 +3,10 @@
 const Index = () => {
   return (
     <>
-      <div className="text-center">
-        <h1>Hello world</h1>
-        <p>From next js</p>
+      <div className="p-5 mb-4 bg-primary bg-gradient">
+        <div className="container-fluid py-5">
+          <h1 className="text-center text-white">Dlearn</h1>
+        </div>
       </div>
     </>
   );
