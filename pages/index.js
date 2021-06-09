@@ -3,8 +3,10 @@
 const Index = () => {
   return (
     <>
-      <h1>Hello world</h1>
-      <p>From next js</p>
+      <div className="text-center">
+        <h1>Hello world</h1>
+        <p>From next js</p>
+      </div>
     </>
   );
 };
