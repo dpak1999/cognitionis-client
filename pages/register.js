@@ -15,15 +15,19 @@ const Register = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const { data } = await axios.post(`http://localhost:8000/api/register`, {
+      const { data } = await axios.post(`/api/register`, {
         name,
         email,
         password,
       });
       toast.success("Registration Successfull. Please login to continue");
+      setName("");
+      setEmail("");
+      setPassword("");
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data);
+      setEmail("");
       setLoading(false);
     }
   };
@@ -34,7 +38,6 @@ const Register = () => {
           <h1 className="text-center text-white">Register</h1>
         </div>
       </div>
-
       <div className="container col-md-4 offset-md-4 pb-5">
         <form onSubmit={handleSubmit}>
           <input
