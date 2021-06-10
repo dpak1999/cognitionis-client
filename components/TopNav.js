@@ -6,23 +6,42 @@ import {
   LoginOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 
 const TopNav = () => {
+  const [current, setCurrent] = useState("");
+
+  useEffect(() => {
+    process.browser && setCurrent(window.location.pathname);
+  }, [process.browser && window.location.pathname]);
+
   return (
-    <Menu mode="horizontal">
-      <Menu.Item icon={<AppstoreAddOutlined />}>
+    <Menu mode="horizontal" selectedKeys={[current]}>
+      <Menu.Item
+        key="/"
+        onClick={(e) => setCurrent(e.key)}
+        icon={<AppstoreAddOutlined />}
+      >
         <Link href="/">
           <a>Dlearn</a>
         </Link>
       </Menu.Item>
 
-      <Menu.Item icon={<LoginOutlined />}>
+      <Menu.Item
+        key="/login"
+        onClick={(e) => setCurrent(e.key)}
+        icon={<LoginOutlined />}
+      >
         <Link href="/login">
           <a>Login</a>
         </Link>
       </Menu.Item>
 
-      <Menu.Item icon={<UsergroupAddOutlined />}>
+      <Menu.Item
+        key="/register"
+        onClick={(e) => setCurrent(e.key)}
+        icon={<UsergroupAddOutlined />}
+      >
         <Link href="/register">
           <a>Register</a>
         </Link>
