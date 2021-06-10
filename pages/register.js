@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -9,14 +10,17 @@ const Register = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { data } = await axios.post(`http://localhost:8000/api/register`, {
-      name,
-      email,
-      password,
-    });
-    console.log("Register response", data);
-    // console.table({ name, email, password });
+    try {
+      e.preventDefault();
+      const { data } = await axios.post(`http://localhost:8000/api/register`, {
+        name,
+        email,
+        password,
+      });
+      toast.success("Registration Successfull. Please login to continue");
+    } catch (error) {
+      toast.error(error.response.data);
+    }
   };
   return (
     <>
@@ -34,7 +38,6 @@ const Register = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your name"
-            required
             autoComplete="off"
           />
           <input
@@ -43,7 +46,6 @@ const Register = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
-            required
             autoComplete="off"
           />
           <input
@@ -52,7 +54,6 @@ const Register = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Enter your password"
-            required
             autoComplete="off"
           />
 
