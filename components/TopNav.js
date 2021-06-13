@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   AppstoreAddOutlined,
   LoginOutlined,
-  LogoutOutlined,
   UsergroupAddOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
@@ -70,9 +69,14 @@ const TopNav = () => {
 
         {user !== null && (
           <Menu.SubMenu title={user && user.name}>
-            <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
-              Logout
-            </Menu.Item>
+            <Menu.ItemGroup>
+              <Menu.Item key="/user">
+                <Link href="/user">
+                  <a>Dashboard</a>
+                </Link>
+              </Menu.Item>
+              <Menu.Item onClick={logout}>Logout</Menu.Item>
+            </Menu.ItemGroup>
           </Menu.SubMenu>
         )}
       </div>
