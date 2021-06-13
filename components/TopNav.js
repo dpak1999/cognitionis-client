@@ -4,6 +4,7 @@ import { Menu } from "antd";
 import Link from "next/link";
 import {
   AppstoreAddOutlined,
+  CoffeeOutlined,
   LoginOutlined,
   LogoutOutlined,
   UsergroupAddOutlined,
@@ -18,6 +19,7 @@ const TopNav = () => {
   const router = useRouter();
 
   const { state, dispatch } = useContext(Context);
+  const { user } = state;
 
   useEffect(() => {
     process.browser && setCurrent(window.location.pathname);
@@ -42,30 +44,39 @@ const TopNav = () => {
           <a>Dlearn</a>
         </Link>
       </Menu.Item>
+      <div className="nav-align">
+        {user === null && (
+          <>
+            <Menu.Item
+              key="/login"
+              onClick={(e) => setCurrent(e.key)}
+              icon={<LoginOutlined />}
+              className="ml-auto"
+            >
+              <Link href="/login">
+                <a>Login</a>
+              </Link>
+            </Menu.Item>
+            <Menu.Item
+              key="/register"
+              onClick={(e) => setCurrent(e.key)}
+              icon={<UsergroupAddOutlined />}
+            >
+              <Link href="/register">
+                <a>Register</a>
+              </Link>
+            </Menu.Item>
+          </>
+        )}
 
-      <Menu.Item
-        key="/login"
-        onClick={(e) => setCurrent(e.key)}
-        icon={<LoginOutlined />}
-      >
-        <Link href="/login">
-          <a>Login</a>
-        </Link>
-      </Menu.Item>
-
-      <Menu.Item
-        key="/register"
-        onClick={(e) => setCurrent(e.key)}
-        icon={<UsergroupAddOutlined />}
-      >
-        <Link href="/register">
-          <a>Register</a>
-        </Link>
-      </Menu.Item>
-
-      <Menu.Item onClick={logout} icon={<LogoutOutlined />} className="ml-auto">
-        Logout
-      </Menu.Item>
+        {user !== null && (
+          <Menu.SubMenu title={user && user.name}>
+            <Menu.Item onClick={logout} icon={<LogoutOutlined />}>
+              Logout
+            </Menu.Item>
+          </Menu.SubMenu>
+        )}
+      </div>
     </Menu>
   );
 };

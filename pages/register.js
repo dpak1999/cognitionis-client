@@ -5,12 +5,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { SyncOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,10 +24,7 @@ const Register = () => {
         password,
       });
       toast.success("Registration Successfull. Please login to continue");
-      setName("");
-      setEmail("");
-      setPassword("");
-      setLoading(false);
+      router.push("/login");
     } catch (error) {
       toast.error(error.response.data);
       setEmail("");

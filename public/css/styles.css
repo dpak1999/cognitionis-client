@@ -3,3 +3,8 @@
 .bg-gradient {
   background-image: linear-gradient(to right, #007bff, #000) !important;
 }
+
+.nav-align {
+  display: flex !important;
+  margin-left: auto !important;
+}
