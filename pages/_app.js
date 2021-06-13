@@ -11,7 +11,11 @@ import { Provider } from "../context";
 function App({ Component, pageProps }) {
   return (
     <Provider>
-      <ToastContainer position="top-right" />
+      <ToastContainer
+        autoClose={1500}
+        pauseOnFocusLoss={false}
+        position="top-right"
+      />
       <TopNav />
       <Component {...pageProps} />
     </Provider>
