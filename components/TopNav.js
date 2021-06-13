@@ -4,7 +4,6 @@ import { Menu } from "antd";
 import Link from "next/link";
 import {
   AppstoreAddOutlined,
-  CoffeeOutlined,
   LoginOutlined,
   LogoutOutlined,
   UsergroupAddOutlined,
