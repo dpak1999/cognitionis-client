@@ -38,7 +38,7 @@ const Login = () => {
       });
       window.localStorage.setItem("user", JSON.stringify(data));
       toast.success("Login Successfull");
-      router.push("/");
+      router.push("/user");
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data);

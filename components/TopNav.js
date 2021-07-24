@@ -6,6 +6,8 @@ import {
   AppstoreAddOutlined,
   LoginOutlined,
   UsergroupAddOutlined,
+  CarryOutOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Context } from "../context";
 import axios from "axios";
@@ -42,6 +44,29 @@ const TopNav = () => {
           <a>Dlearn</a>
         </Link>
       </Menu.Item>
+
+      {user && user.role && user.role.includes("Instructor") ? (
+        <Menu.Item
+          key="/instructor/course/create"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<CarryOutOutlined />}
+        >
+          <Link href="/instructor/course/create">
+            <a>Create course</a>
+          </Link>
+        </Menu.Item>
+      ) : (
+        <Menu.Item
+          key="/user/become-instructor"
+          onClick={(e) => setCurrent(e.key)}
+          icon={<TeamOutlined />}
+        >
+          <Link href="/user/become-instructor">
+            <a>Become Instructor</a>
+          </Link>
+        </Menu.Item>
+      )}
+
       <div className="nav-align">
         {user === null && (
           <>
