@@ -100,7 +100,9 @@ const TopNav = () => {
                   <a>Dashboard</a>
                 </Link>
               </Menu.Item>
-              <Menu.Item onClick={logout}>Logout</Menu.Item>
+              <Menu.Item key="/logout" onClick={logout}>
+                Logout
+              </Menu.Item>
             </Menu.ItemGroup>
           </Menu.SubMenu>
         )}
