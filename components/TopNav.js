@@ -41,7 +41,7 @@ const TopNav = () => {
         icon={<AppstoreAddOutlined />}
       >
         <Link href="/">
-          <a>Dlearn</a>
+          <a>Cognitionis</a>
         </Link>
       </Menu.Item>
 
