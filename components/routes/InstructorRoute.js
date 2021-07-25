@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { SyncOutlined } from "@ant-design/icons";
-import UserNav from "../nav/UserNav";
+import InstructorNav from "../nav/InstructorNav";
 
 const InstructorRoute = ({ children }) => {
   const [ok, setOk] = useState(false);
@@ -35,7 +35,7 @@ const InstructorRoute = ({ children }) => {
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-2">
-              <UserNav />
+              <InstructorNav />
             </div>
             <div className="col-md-10">{children}</div>
           </div>
