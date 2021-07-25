@@ -34,28 +34,30 @@ const TopNav = () => {
   };
 
   return (
-    <Menu mode="horizontal" selectedKeys={[current]}>
+    <Menu mode="horizontal" selectedKeys={[current]} className="mb-2">
       <Menu.Item
         key="/"
         onClick={(e) => setCurrent(e.key)}
         icon={<AppstoreAddOutlined />}
       >
         <Link href="/">
-          <a>Dlearn</a>
+          <a>Cognitionis</a>
         </Link>
       </Menu.Item>
 
-      {user && user.role && user.role.includes("Instructor") ? (
+      {user && user.role && user.role.includes("Instructor") && (
         <Menu.Item
           key="/instructor/course/create"
           onClick={(e) => setCurrent(e.key)}
           icon={<CarryOutOutlined />}
         >
-          <Link href="/instructor/course/create">
-            <a>Create course</a>
+          <Link href="/instructor">
+            <a>Instructor Dashboard</a>
           </Link>
         </Menu.Item>
-      ) : (
+      )}
+
+      {user && user.role && !user.role.includes("Instructor") && (
         <Menu.Item
           key="/user/become-instructor"
           onClick={(e) => setCurrent(e.key)}
@@ -100,7 +102,9 @@ const TopNav = () => {
                   <a>Dashboard</a>
                 </Link>
               </Menu.Item>
-              <Menu.Item onClick={logout}>Logout</Menu.Item>
+              <Menu.Item key="/logout" onClick={logout}>
+                Logout
+              </Menu.Item>
             </Menu.ItemGroup>
           </Menu.SubMenu>
         )}

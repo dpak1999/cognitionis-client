@@ -3,21 +3,31 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const UserNav = () => {
+const InstructorNav = () => {
   const [current, setCurrent] = useState("");
 
   useEffect(() => {
     process.browser && setCurrent(window.location.pathname);
   }, [process.browser && window.location.pathname]);
+
   return (
     <div className="nav flex-column nav-pills">
-      <Link href="/user">
-        <a className={`nav-link ${current === "/user" && "active"}`}>
+      <Link href="/instructor">
+        <a className={`nav-link ${current === "/instructor" && "active"}`}>
           Dashboard
+        </a>
+      </Link>
+      <Link href="/instructor/course/create">
+        <a
+          className={`nav-link ${
+            current === "/instructor/course/create" && "active"
+          }`}
+        >
+          Create Course
         </a>
       </Link>
     </div>
   );
 };
 
-export default UserNav;
+export default InstructorNav;
