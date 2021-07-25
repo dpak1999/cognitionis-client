@@ -9,6 +9,13 @@ const CreateCourse = ({
   values,
   setValues,
 }) => {
+  const children = [];
+  for (let i = 9.99; i <= 100.99; i++) {
+    children.push(
+      <Select.Option key={i.toFixed(2)}>$ {i.toFixed(2)}</Select.Option>
+    );
+  }
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -35,7 +42,7 @@ const CreateCourse = ({
           />
         </div>
 
-        <div className="form-row mt-3">
+        <div className="row mt-3">
           <div className="col">
             <div className="form-group">
               <Select
@@ -49,6 +56,33 @@ const CreateCourse = ({
               </Select>
             </div>
           </div>
+
+          {values.paid && (
+            <div className="col-md-6">
+              <div className="form-group">
+                <Select
+                  defaultValue="$9.99"
+                  style={{ width: "100%" }}
+                  onChange={(v) => setValues({ ...values, price: v })}
+                  tokenSeparators={[,]}
+                  size="large"
+                >
+                  {children}
+                </Select>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="form-group mt-3">
+          <input
+            type="text"
+            name="category"
+            className="form-control"
+            placeholder="Category"
+            value={values.category}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="form-row mt-3">

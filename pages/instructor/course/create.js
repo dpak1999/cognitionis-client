@@ -13,6 +13,7 @@ const CourseCreate = () => {
     paid: true,
     loading: false,
     imagePreview: "",
+    category: "",
   });
 
   const handleChange = (e) => {
