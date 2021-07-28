@@ -9,6 +9,7 @@ const CreateCourse = ({
   values,
   setValues,
   preview,
+  uploadButtonText,
 }) => {
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
@@ -90,7 +91,7 @@ const CreateCourse = ({
           <div className="col-md-6">
             <div className="form-group d-grid gap-2">
               <label className="btn btn-outline-secondary text-start">
-                {values.loading ? "Uploading" : "Upload Image"}
+                {uploadButtonText}
                 <input
                   type="file"
                   name="image"
