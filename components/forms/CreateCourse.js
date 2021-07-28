@@ -1,6 +1,6 @@
 /** @format */
 
-import { Button, Select } from "antd";
+import { Button, Select, Avatar, Badge } from "antd";
 
 const CreateCourse = ({
   handleChange,
@@ -8,6 +8,9 @@ const CreateCourse = ({
   handleSubmit,
   values,
   setValues,
+  preview,
+  uploadButtonText,
+  handleImageRemove,
 }) => {
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
@@ -85,11 +88,11 @@ const CreateCourse = ({
           />
         </div>
 
-        <div className="form-row mt-3">
-          <div className="col">
+        <div className="row mt-3">
+          <div className="col-9">
             <div className="form-group d-grid gap-2">
               <label className="btn btn-outline-secondary text-start">
-                {values.loading ? "Uploading" : "Upload Image"}
+                {uploadButtonText}
                 <input
                   type="file"
                   name="image"
@@ -100,6 +103,15 @@ const CreateCourse = ({
               </label>
             </div>
           </div>
+
+          {preview && (
+            <div className="col-3 d-flex">
+              <Avatar width={400} src={preview} />
+              <div style={{ marginLeft: "15px" }}>
+                <Button onClick={handleImageRemove}>Remove Image</Button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="row mt-3">
