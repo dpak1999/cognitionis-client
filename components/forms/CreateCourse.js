@@ -37,7 +37,7 @@ const CreateCourse = ({
           <textarea
             name="description"
             className="form-control"
-            placeholder="Course Description"
+            placeholder="Course Description. We also support markdown format."
             cols="7"
             rows="7"
             value={values.description}
