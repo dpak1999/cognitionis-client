@@ -49,7 +49,7 @@ const CreateCourse = ({
           <div className="col">
             <div className="form-group">
               <Select
-                onChange={(v) => setValues({ ...values, paid: !values.paid })}
+                onChange={(v) => setValues({ ...values, paid: v, price: 0 })}
                 value={values.paid}
                 style={{ width: "100%" }}
                 size="large"

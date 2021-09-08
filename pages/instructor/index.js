@@ -1,8 +1,21 @@
 /** @format */
 
+import axios from "axios";
+import { useEffect, useState } from "react";
 import InstructorRoute from "../../components/routes/InstructorRoute";
 
 const InstructorIndex = () => {
+  const [courses, setCourses] = useState([]);
+
+  useEffect(() => {
+    loadCourses();
+  }, []);
+
+  const loadCourses = async () => {
+    const { data } = await axios.get("/api/instructor-courses");
+    setCourses(data);
+  };
+  console.log(courses);
   return (
     <InstructorRoute>
       <div className="p-5 mb-4 bg-primary bg-gradient">
