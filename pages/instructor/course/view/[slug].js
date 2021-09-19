@@ -48,11 +48,15 @@ const CourseView = () => {
       const videoData = new FormData();
       videoData.append('video', file);
 
-      const { data } = await axios.post('/api/course/video-upload', videoData, {
-        onUploadProgress: (e) => {
-          setProgress(Math.round((100 * e.loaded) / e.total));
-        },
-      });
+      const { data } = await axios.post(
+        `/api/course/video-upload/${course.instructor._id}`,
+        videoData,
+        {
+          onUploadProgress: (e) => {
+            setProgress(Math.round((100 * e.loaded) / e.total));
+          },
+        }
+      );
 
       console.log(data);
       setValues({ ...values, video: data });
@@ -68,12 +72,13 @@ const CourseView = () => {
     try {
       setUploading(true);
       const { data } = await axios.post(
-        '/api/course/remove-video',
+        `/api/course/remove-video/${course.instructor._id}`,
         values.video
       );
       console.log(data);
       setValues({ ...values, video: {} });
       setUploading(false);
+      setProgress(0);
       setUploadButtonText('Upload video');
     } catch (error) {
       console.log(error);
