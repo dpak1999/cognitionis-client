@@ -1,6 +1,7 @@
 /** @format */
 
-import { Button } from 'antd';
+import { Button, Progress, Tooltip } from 'antd';
+import { CloseCircleFilled } from '@ant-design/icons';
 
 const AddLesson = ({
   values,
@@ -9,6 +10,8 @@ const AddLesson = ({
   handleAddLesson,
   uploadButtonText,
   handleVideo,
+  progress,
+  handleVideoRemove,
 }) => {
   return (
     <div className="container pt-3">
@@ -32,12 +35,28 @@ const AddLesson = ({
           placeholder="Content"
         ></textarea>
 
-        <div className="d-grid gap-2">
-          <label className="btn btn-dark  text-left mt-3">
+        <div className="d-flex justify-content-center">
+          <label className="btn btn-dark text-left mt-3 flex-grow-1">
             {uploadButtonText}
             <input type="file" accept="video/*" hidden onChange={handleVideo} />
           </label>
+
+          {!uploading && values.video.Location && (
+            <Tooltip title="Remove video">
+              <span onClick={handleVideoRemove} className="pt-1 ps-3">
+                <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
+              </span>
+            </Tooltip>
+          )}
         </div>
+
+        {progress > 0 && (
+          <Progress
+            className="d-flex justify-content-center pt-2"
+            percent={progress}
+            steps={10}
+          />
+        )}
         <div className="d-grid gap-2">
           <Button
             onClick={handleAddLesson}
