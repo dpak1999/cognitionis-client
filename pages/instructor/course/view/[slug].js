@@ -7,10 +7,20 @@ import { Avatar, Button, Modal, Tooltip } from 'antd';
 import { CheckOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import InstructorRoute from '../../../../components/routes/InstructorRoute';
+import AddLesson from '../../../../components/forms/AddLesson';
+import { toast } from 'react-toastify';
 
 const CourseView = () => {
   const [course, setCourse] = useState({});
   const [visible, setVisible] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadButtonText, setUploadButtonText] = useState('Upload Video');
+  const [progress, setProgress] = useState(0);
+  const [values, setValues] = useState({
+    title: '',
+    content: '',
+    video: '',
+  });
 
   const router = useRouter();
   const { slug } = router.query;
@@ -22,6 +32,36 @@ const CourseView = () => {
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`);
     setCourse(data);
+  };
+
+  const handleAddLesson = (e) => {
+    e.preventDefault();
+    console.log(values);
+  };
+
+  const handleVideo = async (e) => {
+    try {
+      const file = e.target.files[0];
+      setUploadButtonText(file.name);
+      setUploading(true);
+
+      const videoData = new FormData();
+      videoData.append('video', file);
+
+      const { data } = await axios.post('/api/course/video-upload', videoData, {
+        onUploadProgress: (e) => {
+          setProgress(Math.round((100 * e.loaded) / e.total));
+        },
+      });
+
+      console.log(data);
+      setValues({ ...values, video: data });
+      setUploading(false);
+    } catch (error) {
+      console.log(error);
+      setUploading(false);
+      toast('Video upload failed');
+    }
   };
 
   return (
@@ -85,7 +125,14 @@ const CourseView = () => {
               onCancel={() => setVisible(false)}
               footer={null}
             >
-              add lesson coming soon
+              <AddLesson
+                values={values}
+                setValues={setValues}
+                handleAddLesson={handleAddLesson}
+                uploading={uploading}
+                uploadButtonText={uploadButtonText}
+                handleVideo={handleVideo}
+              />
             </Modal>
           </div>
         )}
