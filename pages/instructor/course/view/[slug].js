@@ -128,7 +128,12 @@ const CourseView = () => {
 
               <div className="d-flex">
                 <Tooltip title="Edit">
-                  <EditOutlined className="h5 pointer text-warning me-4" />
+                  <EditOutlined
+                    onClick={() =>
+                      router.push(`/instructor/course/edit/${slug}`)
+                    }
+                    className="h5 pointer text-warning me-4"
+                  />
                 </Tooltip>
 
                 <Tooltip title="Publish">
@@ -178,7 +183,12 @@ const CourseView = () => {
 
             <div className="row pb-5">
               <div className="col lesson-list">
-                <h4>{course && course.lessons && course.lessons.length}</h4>
+                <h4>
+                  {course && course.lessons && course.lessons.length}{' '}
+                  {course && course.lessons && course.lessons.length > 1
+                    ? 'Lessons'
+                    : 'Lesson'}
+                </h4>
                 <List
                   itemLayout="horizontal"
                   dataSource={course && course.lessons}
