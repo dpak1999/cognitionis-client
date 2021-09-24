@@ -22,7 +22,6 @@ const CreateCourse = ({
 
   return (
     <>
-      {console.log(values)}
       {values && (
         <form onSubmit={handleSubmit}>
           <div className="form-group">

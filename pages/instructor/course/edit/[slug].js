@@ -80,6 +80,30 @@ const CourseEdit = () => {
     }
   };
 
+  const handleDrag = (e, index) => {
+    e.dataTransfer.setData('itemIndex', index);
+  };
+
+  const handleDrop = async (e, index) => {
+    const movingItemIndex = e.dataTransfer.getData('itemIndex');
+    const targetItemIndex = index;
+    let allLessons = values.lessons;
+
+    let movingItem = allLessons[movingItemIndex]; // dragged item
+    allLessons.splice(movingItemIndex, 1); //remove 1 item from the given index
+    allLessons.splice(targetItemIndex, 0, movingItem); //push item after target item index
+
+    setValues({ ...values, lessons: [...allLessons] });
+
+    // save new lesson order in db
+    const { data } = await axios.put(`/api/course/${slug}`, {
+      ...values,
+      image,
+    });
+
+    toast('Lessons rearranged successfully');
+  };
+
   useEffect(() => {
     loadCourse();
   }, [slug]);
@@ -122,19 +146,27 @@ const CourseEdit = () => {
             {values && values.lessons && values.lessons.length > 1
               ? 'Lessons'
               : 'Lesson'}
+            <span>
+              &nbsp;(Note : You can drag and drop lessons to rearrange them)
+            </span>
           </h4>
           <List
+            onDragOver={(e) => e.preventDefault()}
             itemLayout="horizontal"
             dataSource={values && values.lessons}
             renderItem={(item, index) => (
-              <List.Item>
+              <List.Item
+                draggable
+                onDragStart={(e) => handleDrag(e, index)}
+                onDrop={(e) => handleDrop(e, index)}
+              >
                 <List.Item.Meta
                   avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
                 ></List.Item.Meta>
               </List.Item>
             )}
-          ></List>
+          />
         </div>
       </div>
     </InstructorRoute>
