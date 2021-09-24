@@ -5,6 +5,7 @@ import Resizer from 'react-image-file-resizer';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { Avatar, List } from 'antd';
 import CreateCourse from '../../../../components/forms/CreateCourse';
 import InstructorRoute from '../../../../components/routes/InstructorRoute';
 
@@ -17,6 +18,7 @@ const CourseEdit = () => {
     paid: true,
     loading: false,
     category: '',
+    lessons: [],
   });
 
   const [image, setImage] = useState({});
@@ -84,7 +86,7 @@ const CourseEdit = () => {
 
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`);
-    setValues(data);
+    if (data) setValues(data);
     if (data && data.image) setImage(data.image);
   };
 
@@ -109,8 +111,32 @@ const CourseEdit = () => {
           editPage={true}
         />
       </div>
-      <pre>{JSON.stringify(values, null, 4)}</pre>
-      <pre>{JSON.stringify(image, null, 4)}</pre>
+      {/* <pre>{JSON.stringify(values, null, 4)}</pre>
+      <pre>{JSON.stringify(image, null, 4)}</pre> */}
+
+      <hr />
+      <div className="row pb-5">
+        <div className="col lesson-list">
+          <h4>
+            {values && values.lessons && values.lessons.length}{' '}
+            {values && values.lessons && values.lessons.length > 1
+              ? 'Lessons'
+              : 'Lesson'}
+          </h4>
+          <List
+            itemLayout="horizontal"
+            dataSource={values && values.lessons}
+            renderItem={(item, index) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar>{index + 1}</Avatar>}
+                  title={item.title}
+                ></List.Item.Meta>
+              </List.Item>
+            )}
+          ></List>
+        </div>
+      </div>
     </InstructorRoute>
   );
 };
