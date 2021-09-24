@@ -29,6 +29,20 @@ const CourseEdit = () => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const handleImageRemove = async () => {
+    try {
+      setValues({ ...values, loading: true });
+      const res = await axios.post('/api/course/remove-image', { image });
+      setImage({});
+      setPreview('');
+      setUploadButtonText('Upload Image');
+      setValues({ ...values, loading: false });
+    } catch (error) {
+      setValues({ ...values, loading: false });
+      toast('Image upload failed. Try again');
+    }
+  };
+
   const handleImageUpload = (e) => {
     let file = e.target.files[0];
     setPreview(window.URL.createObjectURL(file));
@@ -49,30 +63,16 @@ const CourseEdit = () => {
     });
   };
 
-  const handleImageRemove = async () => {
-    try {
-      setValues({ ...values, loading: true });
-      const res = await axios.post('/api/course/remove-image', { image });
-      setImage({});
-      setPreview('');
-      setUploadButtonText('Upload Image');
-      setValues({ ...values, loading: false });
-    } catch (error) {
-      setValues({ ...values, loading: false });
-      toast('Image upload failed. Try again');
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post('/api/course', {
+      const { data } = await axios.put(`/api/course/${slug}`, {
         ...values,
         image,
       });
-      toast('Great ! Now start adding lessons');
-      router.push('/instructor');
+      toast('Course updated');
+      // router.push('/instructor');
     } catch (error) {
       toast(error.response.data);
     }
@@ -85,6 +85,7 @@ const CourseEdit = () => {
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`);
     setValues(data);
+    if (data && data.image) setImage(data.image);
   };
 
   return (
@@ -105,6 +106,7 @@ const CourseEdit = () => {
           preview={preview}
           uploadButtonText={uploadButtonText}
           handleImageRemove={handleImageRemove}
+          editPage={true}
         />
       </div>
       <pre>{JSON.stringify(values, null, 4)}</pre>
