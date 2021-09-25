@@ -216,8 +216,6 @@ const CourseEdit = () => {
         onCancel={() => setVisible(false)}
         footer={null}
       >
-        Update Lesson form
-        {/* <pre>{JSON.stringify(current, null, 4)}</pre> */}
         <UpdateLesson
           current={current}
           setCurrent={setCurrent}

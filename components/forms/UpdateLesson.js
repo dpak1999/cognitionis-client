@@ -4,24 +4,22 @@ import { Button, Progress, Tooltip } from 'antd';
 import { CloseCircleFilled } from '@ant-design/icons';
 
 const UpdateLesson = ({
-  values,
-  setValues,
-  uploading,
-  handleAddLesson,
-  uploadButtonText,
+  current,
+  setCurrent,
   handleVideo,
+  handleUpdateLesson,
+  uploadVideoButtonText,
   progress,
-  handleVideoRemove,
+  uploading,
 }) => {
   return (
     <div className="container pt-3">
-      <form onSubmit={handleAddLesson}>
+      <form onSubmit={handleUpdateLesson}>
         <input
           type="text"
           className="form-control square"
-          onChange={(e) => setValues({ ...values, title: e.target.value })}
-          value={values.title}
-          placeholder="Title"
+          onChange={(e) => setCurrent({ ...current, title: e.target.value })}
+          value={current.title}
           required
           autoFocus
         />
@@ -30,23 +28,20 @@ const UpdateLesson = ({
           className="form-control mt-3"
           cols="7"
           rows="7"
-          onChange={(e) => setValues({ ...values, content: e.target.value })}
-          value={values.content}
-          placeholder="Content"
+          onChange={(e) => setCurrent({ ...current, content: e.target.value })}
+          value={current.content}
         ></textarea>
 
         <div className="d-flex justify-content-center">
           <label className="btn btn-dark text-left mt-3 flex-grow-1">
-            {uploadButtonText}
+            {uploadVideoButtonText}
             <input type="file" accept="video/*" hidden onChange={handleVideo} />
           </label>
 
-          {!uploading && values.video.Location && (
-            <Tooltip title="Remove video">
-              <span onClick={handleVideoRemove} className="pt-1 ps-3">
-                <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
-              </span>
-            </Tooltip>
+          {!uploading && current.video && current.video.Location && (
+            <div className="pt-2 d-flex justify-content-center">
+              show video player
+            </div>
           )}
         </div>
 
@@ -57,9 +52,14 @@ const UpdateLesson = ({
             steps={10}
           />
         )}
+
+        <div className="d-flex justify-content-between ">
+          <span className="pt-3 ">Preview</span>
+        </div>
+
         <div className="d-grid gap-2">
           <Button
-            onClick={handleAddLesson}
+            onClick={handleUpdateLesson}
             className="col mt-3"
             size="large"
             type="primary"
