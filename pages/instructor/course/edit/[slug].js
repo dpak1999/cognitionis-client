@@ -5,10 +5,11 @@ import Resizer from 'react-image-file-resizer';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { Avatar, List } from 'antd';
+import { Avatar, List, Modal } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import CreateCourse from '../../../../components/forms/CreateCourse';
 import InstructorRoute from '../../../../components/routes/InstructorRoute';
+import UpdateLesson from '../../../../components/forms/UpdateLesson';
 
 const CourseEdit = () => {
   const [values, setValues] = useState({
@@ -25,6 +26,13 @@ const CourseEdit = () => {
   const [image, setImage] = useState({});
   const [preview, setPreview] = useState('');
   const [uploadButtonText, setUploadButtonText] = useState('Upload Image');
+  const [visible, setVisible] = useState(false);
+  const [current, setCurrent] = useState({});
+  const [progress, setProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  const [uploadVideoButtonText, setUploadVideoButtonText] =
+    useState('Upload Video');
+
   const router = useRouter();
   const { slug } = router.query;
 
@@ -127,6 +135,16 @@ const CourseEdit = () => {
     if (data && data.image) setImage(data.image);
   };
 
+  // lesson update
+
+  const handleVideo = () => {
+    console.log('handle video');
+  };
+
+  const handleUpdateLesson = () => {
+    console.log('handle update lesson');
+  };
+
   return (
     <InstructorRoute>
       <div className="p-5 mb-4 bg-primary bg-gradient">
@@ -174,6 +192,10 @@ const CourseEdit = () => {
                 onDrop={(e) => handleDrop(e, index)}
               >
                 <List.Item.Meta
+                  onClick={() => {
+                    setVisible(true);
+                    setCurrent(item);
+                  }}
                   avatar={<Avatar>{index + 1}</Avatar>}
                   title={item.title}
                 ></List.Item.Meta>
@@ -186,6 +208,26 @@ const CourseEdit = () => {
           />
         </div>
       </div>
+
+      <Modal
+        title="Update Lesson"
+        centered
+        visible={visible}
+        onCancel={() => setVisible(false)}
+        footer={null}
+      >
+        Update Lesson form
+        {/* <pre>{JSON.stringify(current, null, 4)}</pre> */}
+        <UpdateLesson
+          current={current}
+          setCurrent={setCurrent}
+          handleVideo={handleVideo}
+          handleUpdateLesson={handleUpdateLesson}
+          uploadVideoButtonText={uploadVideoButtonText}
+          progress={progress}
+          uploading={uploading}
+        />
+      </Modal>
     </InstructorRoute>
   );
 };
