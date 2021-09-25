@@ -1,7 +1,7 @@
 /** @format */
 
-import { Button, Progress, Tooltip } from 'antd';
-import { CloseCircleFilled } from '@ant-design/icons';
+import { Button, Progress, Switch } from 'antd';
+import ReactPlayer from 'react-player';
 
 const UpdateLesson = ({
   current,
@@ -32,17 +32,21 @@ const UpdateLesson = ({
           value={current.content}
         ></textarea>
 
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-center flex-column">
+          {!uploading && current.video && current.video.Location && (
+            <div className="pt-2 d-flex justify-content-center">
+              <ReactPlayer
+                url={current.video.Location}
+                width="440px"
+                height="240px"
+                controls
+              />
+            </div>
+          )}
           <label className="btn btn-dark text-left mt-3 flex-grow-1">
             {uploadVideoButtonText}
             <input type="file" accept="video/*" hidden onChange={handleVideo} />
           </label>
-
-          {!uploading && current.video && current.video.Location && (
-            <div className="pt-2 d-flex justify-content-center">
-              show video player
-            </div>
-          )}
         </div>
 
         {progress > 0 && (
@@ -54,7 +58,14 @@ const UpdateLesson = ({
         )}
 
         <div className="d-flex justify-content-between ">
-          <span className="pt-3 ">Preview</span>
+          <span className="pt-3 ">Free Preview</span>
+          <Switch
+            className="float-right mt-2"
+            disabled={uploading}
+            defaultChecked={current.free_preview}
+            name="free_preview"
+            onChange={(v) => setCurrent({ ...current, free_preview: v })}
+          />
         </div>
 
         <div className="d-grid gap-2">
