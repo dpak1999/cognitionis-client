@@ -107,12 +107,36 @@ const CourseView = () => {
     }
   };
 
-  const handleUnpublish = (e, courseId) => {
-    e.preventDefault();
+  const handlePublish = async (e, courseId) => {
+    try {
+      let answer = window.confirm(
+        'Once you publish the course it will be live for users to enroll.'
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(`/api/course/publish/${courseId}`);
+      setCourse(data);
+
+      toast('Congrats your course is now live.');
+    } catch (error) {
+      toast('Something went wrong please try again');
+    }
   };
 
-  const handlePublish = (e, courseId) => {
-    e.preventDefault();
+  const handleUnpublish = async (e, courseId) => {
+    try {
+      let answer = window.confirm(
+        'Once you unpublish the course users will not be able to enroll in it.'
+      );
+      if (!answer) return;
+
+      const { data } = await axios.put(`/api/course/unpublish/${courseId}`);
+      setCourse(data);
+
+      toast('Your course is now unpublished.');
+    } catch (error) {
+      toast('Something went wrong please try again');
+    }
   };
 
   return (
