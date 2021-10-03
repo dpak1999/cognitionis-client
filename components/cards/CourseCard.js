@@ -2,6 +2,7 @@
 
 import { Badge, Card } from 'antd';
 import Link from 'next/link';
+import { currencyFormatter } from '../../utils/helper';
 
 const CourseCard = ({ course }) => {
   const { slug, name, instructor, price, image, paid, category } = course;
@@ -27,7 +28,11 @@ const CourseCard = ({ course }) => {
             style={{ backgroundColor: '#03a9f4' }}
             className="me-2 pb-2"
           />
-          <h4 className="pt-2">{paid ? `$ ${price}` : 'Free'}</h4>
+          <h4 className="pt-2">
+            {paid
+              ? currencyFormatter({ amount: price, currency: 'USD' })
+              : 'Free'}
+          </h4>
         </Card>
       </a>
     </Link>

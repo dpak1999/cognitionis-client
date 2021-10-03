@@ -3,18 +3,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import CourseCard from '../components/cards/CourseCard';
 
-const Index = () => {
-  const [courses, setCourses] = useState([]);
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      const { data } = await axios.get('/api/courses');
-      setCourses(data);
-    };
-
-    fetchCourses();
-  }, []);
-
+const Index = ({ courses }) => {
   return (
     <>
       <div className="p-5 mb-4 bg-primary bg-gradient">
@@ -35,5 +24,14 @@ const Index = () => {
     </>
   );
 };
+
+export async function getServerSideProps() {
+  const { data } = await axios.get(`${process.env.API}/courses`);
+  return {
+    props: {
+      courses: data,
+    },
+  };
+}
 
 export default Index;
