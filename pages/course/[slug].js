@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron';
+import PreviewModal from '../../components/modals/PreviewModal';
 
 const SingleCourse = ({ course }) => {
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +20,12 @@ const SingleCourse = ({ course }) => {
         preview={preview}
         setPreview={setPreview}
       />
-      {showModal ? course.lessons[0].video.Location : ''}
+
+      <PreviewModal
+        preview={preview}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </>
   );
 };
