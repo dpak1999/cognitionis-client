@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron';
+import SingleCourseLesson from '../../components/cards/SingleCourseLesson';
 import PreviewModal from '../../components/modals/PreviewModal';
 
 const SingleCourse = ({ course }) => {
@@ -26,6 +27,15 @@ const SingleCourse = ({ course }) => {
         showModal={showModal}
         setShowModal={setShowModal}
       />
+
+      {course.lessons && (
+        <SingleCourseLesson
+          lessons={course.lessons}
+          setPreview={setPreview}
+          showModal={showModal}
+          setShowModal={setShowModal}
+        />
+      )}
     </>
   );
 };
