@@ -25,6 +25,8 @@ const SingleCourseJumbotron = ({
   handleFreeEnrollment,
   user,
   loading,
+  enrolled,
+  setEnrolled,
 }) => {
   return (
     <div className="p-5 mb-4 bg-primary bg-gradient">
@@ -88,7 +90,11 @@ const SingleCourseJumbotron = ({
                 disabled={loading}
                 onClick={paid ? handlePaidEnrollment : handleFreeEnrollment}
               >
-                {user ? 'Enroll' : 'Login to enroll'}
+                {user
+                  ? enrolled.status
+                    ? 'Go to Course'
+                    : 'Enroll'
+                  : 'Login to enroll'}
               </Button>
             )}
           </div>
