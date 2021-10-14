@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron';
 import SingleCourseLesson from '../../components/cards/SingleCourseLesson';
 import PreviewModal from '../../components/modals/PreviewModal';
@@ -18,7 +19,6 @@ const SingleCourse = ({ course }) => {
   } = useContext(Context);
 
   const router = useRouter();
-  const { slug } = router.query;
 
   const checkEnrollment = async () => {
     const { data } = await axios.get(`/api/check-enrollment/${course._id}`);
@@ -27,7 +27,25 @@ const SingleCourse = ({ course }) => {
 
   const handlePaidEnrollment = () => {};
 
-  const handleFreeEnrollment = () => {};
+  const handleFreeEnrollment = async (e) => {
+    e.preventDefault();
+    try {
+      if (!user) router.push('/login');
+
+      if (enrolled.status) {
+        return router.push(`/user/course/${enrolled.course.slug}`);
+      }
+      setLoading(true);
+      const { data } = await axios.post(`/api/free-enrollment/${course._id}`);
+      toast(data.message);
+      setLoading(false);
+      router.push(`/user/course/${data.course.slug}`);
+    } catch (error) {
+      toast('Failed to enroll. Please try again');
+      console.error(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (user && course) {
