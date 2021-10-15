@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { loadStripe } from '@stripe/stripe-js';
 import SingleCourseJumbotron from '../../components/cards/SingleCourseJumbotron';
 import SingleCourseLesson from '../../components/cards/SingleCourseLesson';
 import PreviewModal from '../../components/modals/PreviewModal';
@@ -25,7 +26,24 @@ const SingleCourse = ({ course }) => {
     setEnrolled(data);
   };
 
-  const handlePaidEnrollment = () => {};
+  const handlePaidEnrollment = async () => {
+    try {
+      setLoading(true);
+      if (!user) router.push('/login');
+
+      if (enrolled.status) {
+        return router.push(`/user/course/${enrolled.course.slug}`);
+      }
+
+      const { data } = await axios.post(`/api/paid-enrollment/${course._id}`);
+      const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_KEY);
+
+      stripe.redirectToCheckout({ sessionId: data });
+    } catch (error) {
+      toast('Failed to enroll. Try again later');
+      setLoading(false);
+    }
+  };
 
   const handleFreeEnrollment = async (e) => {
     e.preventDefault();
