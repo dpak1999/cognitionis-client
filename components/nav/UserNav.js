@@ -1,10 +1,10 @@
 /** @format */
 
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 const UserNav = () => {
-  const [current, setCurrent] = useState("");
+  const [current, setCurrent] = useState('');
 
   useEffect(() => {
     process.browser && setCurrent(window.location.pathname);
@@ -12,7 +12,7 @@ const UserNav = () => {
   return (
     <div className="nav flex-column nav-pills">
       <Link href="/user">
-        <a className={`nav-link ${current === "/user" && "active"}`}>
+        <a className={`nav-link ${current === '/user' && 'active'}`}>
           Dashboard
         </a>
       </Link>
