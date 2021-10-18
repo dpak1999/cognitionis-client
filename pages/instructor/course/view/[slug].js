@@ -150,7 +150,7 @@ const CourseView = () => {
                 src={course.image ? course.image.Location : '/def.jpg'}
               />
 
-              <div className="flex-grow-1 ps-2">
+              <div className="flex-grow-1 pl-2">
                 <div className="row">
                   <div className="col">
                     <h5 className="mt-2 text-primary">{course.name}</h5>
@@ -170,7 +170,7 @@ const CourseView = () => {
                     onClick={() =>
                       router.push(`/instructor/course/edit/${slug}`)
                     }
-                    className="h5 pointer text-warning me-4"
+                    className="h5 pointer text-warning mr-4"
                   />
                 </Tooltip>
 

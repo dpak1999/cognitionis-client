@@ -40,7 +40,7 @@ const SingleCourseJumbotron = ({
             <Badge
               count={category}
               style={{ backgroundColor: '#03a9f4' }}
-              className="pb-4 me-4"
+              className="pb-4 mr-4"
             />
             <p>Created By {instructor.name}</p>
             <p>Last updated {new Date(updatedAt).toLocaleDateString()}</p>

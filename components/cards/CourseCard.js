@@ -26,7 +26,7 @@ const CourseCard = ({ course }) => {
           <Badge
             count={category}
             style={{ backgroundColor: '#03a9f4' }}
-            className="me-2 pb-2"
+            className="mr-2 pb-2"
           />
           <h4 className="pt-2">
             {paid
