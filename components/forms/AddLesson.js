@@ -43,7 +43,7 @@ const AddLesson = ({
 
           {!uploading && values.video.Location && (
             <Tooltip title="Remove video">
-              <span onClick={handleVideoRemove} className="pt-1 ps-3">
+              <span onClick={handleVideoRemove} className="pt-1 pl-3">
                 <CloseCircleFilled className="text-danger d-flex justify-content-center pt-4 pointer" />
               </span>
             </Tooltip>

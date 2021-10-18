@@ -37,7 +37,7 @@ const InstructorIndex = () => {
                 src={course.image ? course.image.Location : '/def.jpg'}
               />
 
-              <div className="flex-grow-1 ps-2">
+              <div className="flex-grow-1 pl-2">
                 <div className="row">
                   <div className="col">
                     <Link
