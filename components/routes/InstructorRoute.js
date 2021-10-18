@@ -1,10 +1,10 @@
 /** @format */
 
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { SyncOutlined } from "@ant-design/icons";
-import InstructorNav from "../nav/InstructorNav";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { SyncOutlined } from '@ant-design/icons';
+import InstructorNav from '../nav/InstructorNav';
 
 const InstructorRoute = ({ children }) => {
   const [ok, setOk] = useState(false);
@@ -12,11 +12,13 @@ const InstructorRoute = ({ children }) => {
 
   const fetchInstructor = async () => {
     try {
-      const { data } = await axios.get("/api/current-instructor");
-      if (data.ok) setOk(true);
+      const { data } = await axios.get('/api/current-instructor');
+      if (data.ok) {
+        setOk(true);
+      }
     } catch (error) {
       setOk(false);
-      router.push("/");
+      router.push('/');
     }
   };
 

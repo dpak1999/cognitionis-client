@@ -12,9 +12,10 @@
   "license": "MIT",
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
+    "@stripe/stripe-js": "^1.19.1",
     "antd": "^4.16.2",
     "axios": "^0.21.1",
-    "bootstrap": "^5.0.1",
+    "bootstrap": "4.6",
     "express": "^4.17.1",
     "http-proxy-middleware": "^2.0.0",
     "next": "^10.2.3",
@@ -22,6 +23,7 @@
     "react-dom": "^17.0.2",
     "react-image-file-resizer": "^0.4.7",
     "react-markdown": "^7.0.1",
+    "react-player": "^2.9.0",
     "react-toastify": "^7.0.4"
   }
 }

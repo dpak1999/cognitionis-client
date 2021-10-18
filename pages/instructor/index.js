@@ -1,11 +1,11 @@
 /** @format */
 
-import { Avatar } from "antd";
-import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import InstructorRoute from "../../components/routes/InstructorRoute";
-import Link from "next/link";
+import { Avatar, Tooltip } from 'antd';
+import { CheckCircleOutlined, CloseCircleOutlined } from '@ant-design/icons';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import InstructorRoute from '../../components/routes/InstructorRoute';
+import Link from 'next/link';
 
 const InstructorIndex = () => {
   const [courses, setCourses] = useState([]);
@@ -15,11 +15,11 @@ const InstructorIndex = () => {
   }, []);
 
   const loadCourses = async () => {
-    const { data } = await axios.get("/api/instructor-courses");
+    const { data } = await axios.get('/api/instructor-courses');
     setCourses(data);
   };
 
-  const styles = { marginTop: "-15px", fontSize: "10px" };
+  const styles = { marginTop: '-15px', fontSize: '10px' };
   return (
     <InstructorRoute>
       <div className="p-5 mb-4 bg-primary bg-gradient">
@@ -34,10 +34,10 @@ const InstructorIndex = () => {
             <div className="d-flex pt-4">
               <Avatar
                 size={80}
-                src={course.image ? course.image.Location : "/def.jpg"}
+                src={course.image ? course.image.Location : '/def.jpg'}
               />
 
-              <div className="flex-grow-1 ps-2">
+              <div className="flex-grow-1 pl-2">
                 <div className="row">
                   <div className="col">
                     <Link
@@ -49,7 +49,7 @@ const InstructorIndex = () => {
                       </a>
                     </Link>
 
-                    <p style={{ marginTop: "-10px" }}>
+                    <p style={{ marginTop: '-10px' }}>
                       {course.lessons.length} Lessons
                     </p>
 
@@ -69,13 +69,13 @@ const InstructorIndex = () => {
                   </div>
                   <div className="col-md-3 mt-3 text-center">
                     {course.published ? (
-                      <div>
+                      <Tooltip title="Published">
                         <CheckCircleOutlined className="h5 pointer text-success" />
-                      </div>
+                      </Tooltip>
                     ) : (
-                      <div>
+                      <Tooltip title="Unpublished">
                         <CloseCircleOutlined className="h5 pointer text-warning" />
-                      </div>
+                      </Tooltip>
                     )}
                   </div>
                 </div>

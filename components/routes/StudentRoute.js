@@ -4,9 +4,8 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { SyncOutlined } from '@ant-design/icons';
-import UserNav from '../nav/UserNav';
 
-const UserRoute = ({ children, showNav = true }) => {
+const StudentRoute = ({ children, showNav = true }) => {
   const [ok, setOk] = useState(false);
   const router = useRouter();
 
@@ -32,19 +31,10 @@ const UserRoute = ({ children, showNav = true }) => {
           className="d-flex justify-content-center p-5 text-primary display-1"
         />
       ) : (
-        <div className="container-fluid">
-          <div className="row">
-            {showNav && (
-              <div className="col-md-2">
-                <UserNav />
-              </div>
-            )}
-            <div className={showNav ? 'col-md-10' : 'col-12'}>{children}</div>
-          </div>
-        </div>
+        <div className="container-fluid">{children}</div>
       )}
     </>
   );
 };
 
-export default UserRoute;
+export default StudentRoute;
