@@ -12,3 +12,7 @@
 .pointer {
   cursor: pointer !important;
 }
+
+.square {
+  border-radius: 0;
+}
