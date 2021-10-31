@@ -3,13 +3,14 @@
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Modal, Tooltip, List } from 'antd';
+import { Avatar, Button, Modal, Tooltip, List, Badge } from 'antd';
 import {
   CheckOutlined,
   CloseOutlined,
   EditOutlined,
   QuestionOutlined,
   UploadOutlined,
+  UserSwitchOutlined,
 } from '@ant-design/icons';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'react-toastify';
@@ -17,6 +18,7 @@ import InstructorRoute from '../../../../components/routes/InstructorRoute';
 import AddLesson from '../../../../components/forms/AddLesson';
 
 const CourseView = () => {
+  const [students, setStudents] = useState(0);
   const [course, setCourse] = useState({});
   const [visible, setVisible] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -30,10 +32,6 @@ const CourseView = () => {
 
   const router = useRouter();
   const { slug } = router.query;
-
-  useEffect(() => {
-    loadCourse();
-  }, [slug]);
 
   const loadCourse = async () => {
     const { data } = await axios.get(`/api/course/${slug}`);
@@ -139,6 +137,21 @@ const CourseView = () => {
     }
   };
 
+  const studentCount = async () => {
+    const { data } = await axios.post(`/api/instructor/student-count`, {
+      courseId: course._id,
+    });
+    setStudents(data.length);
+  };
+
+  useEffect(() => {
+    loadCourse();
+  }, [slug]);
+
+  useEffect(() => {
+    course && studentCount();
+  }, [course]);
+
   return (
     <InstructorRoute>
       <div className="container-fluid pt-3">
@@ -153,7 +166,13 @@ const CourseView = () => {
               <div className="flex-grow-1 pl-2">
                 <div className="row">
                   <div className="col">
-                    <h5 className="mt-2 text-primary">{course.name}</h5>
+                    <h5 className="mt-2 text-primary">
+                      {course.name}{' '}
+                      <Badge
+                        count={`${students} enrolled`}
+                        className="mb-1 ml-1"
+                      />
+                    </h5>
                     <p style={{ marginTop: '-10px' }}>
                       {course.lessons && course.lessons.length} Lessons
                     </p>
@@ -164,7 +183,7 @@ const CourseView = () => {
                 </div>
               </div>
 
-              <div className="d-flex">
+              <div className="d-flex mt-4">
                 <Tooltip title="Edit">
                   <EditOutlined
                     onClick={() =>
