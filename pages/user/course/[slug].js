@@ -4,8 +4,10 @@ import { createElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Menu, Avatar, Button } from 'antd';
 import {
+  CheckCircleFilled,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MinusCircleFilled,
   PlayCircleOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
@@ -17,6 +19,8 @@ const SingleCourse = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [course, setCourse] = useState({ lessons: [] });
+  const [completedLessons, setCompletedLessons] = useState([]);
+  const [updateState, setUpdateState] = useState(false);
 
   const router = useRouter();
   const { slug } = router.query;
@@ -26,11 +30,54 @@ const SingleCourse = () => {
     setCourse(data);
   };
 
+  const markCompleted = async () => {
+    await axios.post(`/api/mark-completed`, {
+      courseId: course._id,
+      lessonId: course.lessons[clicked]._id,
+    });
+
+    setCompletedLessons([...completedLessons, course.lessons[clicked]._id]);
+  };
+
+  const markIncomplete = async () => {
+    try {
+      await axios.post(`/api/mark-incomplete`, {
+        courseId: course._id,
+        lessonId: course.lessons[clicked]._id,
+      });
+      const all = completedLessons;
+      const idx = all.indexOf(course.lessons[clicked]._id);
+
+      if (idx > -1) {
+        all.splice(idx, 1);
+        setCompletedLessons(all);
+        setUpdateState(!updateState);
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+  const loadCompletedLessons = async () => {
+    const { data } = await axios.post(`/api/completed-list`, {
+      courseId: course._id,
+    });
+    if (data) {
+      setCompletedLessons(data);
+    }
+  };
+
   useEffect(() => {
     if (slug) {
       loadCourse();
     }
   }, [slug]);
+
+  useEffect(() => {
+    if (course) {
+      loadCompletedLessons();
+    }
+  }, [course]);
 
   return (
     <StudentRoute>
@@ -55,6 +102,17 @@ const SingleCourse = () => {
                 icon={<Avatar>{index + 1}</Avatar>}
               >
                 {lesson.title.substring(0, 30)}
+                {completedLessons.includes(lesson._id) ? (
+                  <CheckCircleFilled
+                    className="float-right text-primary ml-2"
+                    style={{ marginTop: '13px' }}
+                  />
+                ) : (
+                  <MinusCircleFilled
+                    className="float-right text-danger ml-2"
+                    style={{ marginTop: '13px' }}
+                  />
+                )}
               </Menu.Item>
             ))}
           </Menu>
@@ -63,6 +121,23 @@ const SingleCourse = () => {
         <div className="col">
           {clicked !== -1 ? (
             <>
+              <div className="alert alert-primary square">
+                <strong>
+                  {course.lessons[clicked].title.substring(0, 30)}
+                </strong>
+                {completedLessons.includes(course.lessons[clicked]._id) ? (
+                  <span
+                    className="float-right pointer"
+                    onClick={markIncomplete}
+                  >
+                    Mark as Incomplete
+                  </span>
+                ) : (
+                  <span className="float-right pointer" onClick={markCompleted}>
+                    Mark as Complete
+                  </span>
+                )}
+              </div>
               {course.lessons[clicked].video &&
                 course.lessons[clicked].video.Location && (
                   <div className="wrapper">
@@ -72,6 +147,7 @@ const SingleCourse = () => {
                       width="100%"
                       height="100%"
                       controls
+                      onEnded={() => markCompleted()}
                     />
                   </div>
                 )}
