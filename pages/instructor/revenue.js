@@ -1,21 +1,36 @@
 /** @format */
 
 import { useState, useEffect, useContext } from 'react';
-import { DollarOutlined, SettingOutlined } from '@ant-design/icons';
-import { Context } from '../../context';
+import {
+  DollarOutlined,
+  SettingOutlined,
+  SyncOutlined,
+} from '@ant-design/icons';
 import InstructorRoute from '../../components/routes/InstructorRoute';
 import { stripeCurrencyFormatter } from '../../utils/helper';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Revenue = () => {
   const [balance, setBalance] = useState({ pending: [] });
+  const [loading, setLoading] = useState(false);
 
   const fetchBalance = async () => {
     const { data } = await axios.get(`/api/instructor/balance`);
     setBalance(data);
   };
 
-  const handlePayoutSettings = async () => {};
+  const handlePayoutSettings = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get('/api/instructor/payout-settings');
+      window.location.href = data;
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+      toast('Server error. Please try again later', { type: 'error' });
+    }
+  };
 
   useEffect(() => {
     fetchBalance();
@@ -44,17 +59,21 @@ const Revenue = () => {
                 ))}
             </h4>
             <small>Since last 48 hours</small>
-            <hr />
+            {/* <hr />
             <h4>
               Payouts
-              <SettingOutlined
-                className="float-right pointer"
-                onClick={handlePayoutSettings}
-              />
+              {!loading ? (
+                <SettingOutlined
+                  className="float-right pointer"
+                  onClick={handlePayoutSettings}
+                />
+              ) : (
+                <SyncOutlined spin className="float-right pointer" />
+              )}
             </h4>
             <small>
               Update your stripe account details or view previous payouts
-            </small>
+            </small> */}
           </div>
         </div>
       </div>
