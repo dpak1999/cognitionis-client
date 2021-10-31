@@ -1,9 +1,15 @@
 /** @format */
 
-import { useEffect, useState } from 'react';
+import { createElement, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Menu, Avatar } from 'antd';
+import { Menu, Avatar, Button } from 'antd';
+import {
+  MenuFoldOutlined,
+  MenuUnfoldOutlined,
+  PlayCircleOutlined,
+} from '@ant-design/icons';
 import axios from 'axios';
+import ReactPlayer from 'react-player';
 import StudentRoute from '../../../components/routes/StudentRoute';
 
 const SingleCourse = () => {
@@ -30,6 +36,13 @@ const SingleCourse = () => {
     <StudentRoute>
       <div className="row">
         <div style={{ maxWidth: 320 }}>
+          <Button
+            className="text-primary mt-1 btn-block mb-2"
+            onClick={() => setCollapsed(!collapsed)}
+          >
+            {createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined)}
+            {!collapsed && 'Lessons'}
+          </Button>
           <Menu
             defaultSelectedKeys={[clicked]}
             inlineCollapsed={collapsed}
@@ -49,9 +62,28 @@ const SingleCourse = () => {
 
         <div className="col">
           {clicked !== -1 ? (
-            <>{JSON.stringify(course.lessons[clicked])}</>
+            <>
+              {course.lessons[clicked].video &&
+                course.lessons[clicked].video.Location && (
+                  <div className="wrapper">
+                    <ReactPlayer
+                      className="player"
+                      url={course.lessons[clicked].video.Location}
+                      width="100%"
+                      height="100%"
+                      controls
+                    />
+                  </div>
+                )}
+              <p>{course.lessons[clicked].content}</p>
+            </>
           ) : (
-            <>Click on a lesson to start learning</>
+            <div className="d-flex justify-content-center p-5">
+              <div className="text-center p-5">
+                <PlayCircleOutlined className="display-1 p-5 text-primary" />
+                <p className="lead">Click on the lesson to start learning</p>
+              </div>
+            </div>
           )}
         </div>
       </div>
