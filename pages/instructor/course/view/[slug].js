@@ -10,9 +10,7 @@ import {
   EditOutlined,
   QuestionOutlined,
   UploadOutlined,
-  UserSwitchOutlined,
 } from '@ant-design/icons';
-import ReactMarkdown from 'react-markdown';
 import { toast } from 'react-toastify';
 import InstructorRoute from '../../../../components/routes/InstructorRoute';
 import AddLesson from '../../../../components/forms/AddLesson';
@@ -216,9 +214,7 @@ const CourseView = () => {
             </div>
             <hr />
             <div className="row">
-              <div className="col">
-                <ReactMarkdown children={course.description} />
-              </div>
+              <div className="col">{course.description}</div>
             </div>
             <div className="row">
               <Button
