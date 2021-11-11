@@ -46,7 +46,7 @@ const SingleCourseJumbotron = ({
             <p>Last updated {new Date(updatedAt).toLocaleDateString()}</p>
             <h4 className="text-light">
               {paid
-                ? currencyFormatter({ amount: price, currency: 'usd' })
+                ? currencyFormatter({ amount: price, currency: 'inr' })
                 : 'Free'}
             </h4>
           </div>

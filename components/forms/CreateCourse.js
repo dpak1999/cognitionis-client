@@ -16,7 +16,7 @@ const CreateCourse = ({
   const children = [];
   for (let i = 9.99; i <= 100.99; i++) {
     children.push(
-      <Select.Option key={i.toFixed(2)}>$ {i.toFixed(2)}</Select.Option>
+      <Select.Option key={i.toFixed(2)}>Rs {i.toFixed(2)}</Select.Option>
     );
   }
 
@@ -66,7 +66,7 @@ const CreateCourse = ({
               <div className="col-md-6">
                 <div className="form-group">
                   <Select
-                    defaultValue="$9.99"
+                    defaultValue="Rs 9.99"
                     style={{ width: '100%' }}
                     onChange={(v) => setValues({ ...values, price: v })}
                     tokenSeparators={[,]}
